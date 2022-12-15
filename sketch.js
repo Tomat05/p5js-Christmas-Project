@@ -1,13 +1,16 @@
-let playerManager;
+let player;
+let physicsManager;
 
 // Initial setup
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  playerManager = new PlayerManager();
+  player = new Player(createVector(500, 0));
+  physicsManager = new PhysicsManager(player);
 }
 
 // Update loop (FRAMERATE DEPENDANT)
 function draw() {
   background(0);
-  playerManager.onFrameUpdate();
+  player.onFrameUpdate();
+  physicsManager.onFrameUpdate();
 }

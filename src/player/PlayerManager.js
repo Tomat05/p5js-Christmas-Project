@@ -1,11 +1,8 @@
+// !!!NOT USED!!!
+
 class PlayerManager {
     constructor() {
         this.player = new Player(createVector(200, 200));
-    }
-
-    onFrameUpdate() {
-        this.player.drawPlayer();
-        this.handleInput();
     }
 
     // Handles input for the player character
@@ -17,4 +14,10 @@ class PlayerManager {
           this.player.move(1);
         }
       }
+
+
+      onFrameUpdate() {
+        this.drawPlayer();
+        this.handleInput();
+    }
 }
