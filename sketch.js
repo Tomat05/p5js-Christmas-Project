@@ -13,4 +13,9 @@ function draw() {
   background(0);
   player.onFrameUpdate();
   physicsManager.onFrameUpdate();
+
+  let fr = Math.round(frameRate());
+  fill(255);
+  textSize(20);
+  text(fr, 10, 10, 20, 20);
 }

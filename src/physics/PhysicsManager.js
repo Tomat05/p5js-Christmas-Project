@@ -8,6 +8,6 @@ class PhysicsManager {
     }
 
     onFrameUpdate() {
-        setInterval(this.onPhysicsUpdate(), 100);
+        setInterval(this.onPhysicsUpdate(), 10);
     }
 }

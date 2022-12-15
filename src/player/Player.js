@@ -22,14 +22,20 @@ class Player {
 
     // Simulates the force of gravity
     fall() {
-
-      if (this.downVel / 1000 < 50) {
-        this.downVel -= this.gravity;
+      if (this.downVel / 100 >= 50) {
+        this.downVel = 5000;
+        print("reset to" + this.downVel);
       } else {
-        this.downVel = 50;
+        this.downVel -= this.gravity;
       }
 
       this.position.set(this.position.x, this.position.y + (this.downVel * (deltaTime / 1000)));
+      if (this.position.y > windowHeight - 100) {
+        this.position.set(this.position.x, windowHeight - 100);
+        this.downVel = -this.downVel;
+        this.downVel -= this.downVel / 5;
+        // this.position.set(this.position.x, 0);
+      }
     }
 
     // Handles input for the player character
