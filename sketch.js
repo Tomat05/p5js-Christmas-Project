@@ -22,6 +22,7 @@ function draw() {
     rect((windowWidth / 2) - 25, (windowHeight / 2) - 25, 50, 50);
     pop();
     // screenMask.draw();
+    
 
 	push();
 	let fr = Math.round(frameRate() * 10) / 10;

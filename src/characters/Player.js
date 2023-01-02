@@ -1,15 +1,38 @@
 class Player {
     constructor() {
-        this.thirsty = false;
+        this.thirsty = true;
         this.hungry = true;
         this.position = createVector(4, 4);
         this.health = 1;
+        this.deathMsg = "";
+        this.timeVal = 5;
     }
 
     damageCheck() {
+        // DROWNING
         if (this.position.x % 7 === 0 || this.position.x % 7 === 6 || this.position.y % 9 === 0 || this.position.y % 9 === 8) {
             this.health = 0;
+            this.deathMsg = "Player jumped into the ocean and drowned :(";
         }
+
+        // HUNGRY || THIRSTY
+        this.timeVal -= 1 * (deltaTime / 1000);
+        if (this.timeVal <= 0) {
+            this.health = 0;
+            this.deathMsg = "Player died of " + (this.thirsty ? "thirst" : "hunger");
+        }
+    }
+
+    eat() {
+        this.timeVal = 5;
+        this.hungry = false;
+        this.thirsty = true;
+    }
+
+    drink() {
+        this.timeVal = 5;
+        this.thirsty = false;
+        this.hungry = true;
     }
 
     flashHealth() {
