@@ -1,6 +1,7 @@
 class Beast {
     constructor(tilesize, playerPosition) {
-        this.position = createVector(2, 1);
+        this.defaultPosition = createVector(2, 1);
+		this.position = createVector(this.defaultPosition.x, this.defaultPosition.y);
         this.size = tilesize;
         this.target = playerPosition;
 		this.time = 1;

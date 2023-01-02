@@ -2,12 +2,14 @@ class Player {
     constructor() {
         this.thirsty = true;
         this.hungry = true;
-        this.position = createVector(4, 4);
+        this.defaultPosition = createVector(4, 4);
+        this.position = createVector(this.defaultPosition.x, this.defaultPosition.y);
         this.health = 1;
         this.deathMsg = "";
         this.timeVal = 5;
         this.hasWood = false;
         this.boatHealth = 0;
+        this.healthFlash = 0;
     }
 
     damageCheck(beast) {
@@ -69,6 +71,8 @@ class Player {
             this.healthFlash += 2;
         } if (this.healthFlash >= 300) {
             fill(0);
+        } if (this.healthFlash >= 400) {
+            return true;
         }
         this.tiles[this.position.x][this.position.y].draw();
         pop();

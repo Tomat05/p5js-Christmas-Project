@@ -5,7 +5,6 @@ class Grid extends Player{
         this.tilesX = 7;
         this.tilesY = 9;
         this.tileSize = 50;
-        this.healthFlash = 0;
         this.beast = new Beast(this.tileSize, this.position);
     }
 
@@ -98,6 +97,16 @@ class Grid extends Player{
         }
     }
 
+    reset() {
+        this.beast.position.set(this.beast.defaultPosition.x, this.beast.defaultPosition.y);
+        this.position.set(this.defaultPosition.x, this.defaultPosition.y);
+        this.hungry = true;
+        this.thirsty = true;
+        this.health = 1;
+        this.healthFlash = 0;
+        this.timeVal = 5;
+    }
+
     update() {
         push();
         translate((windowWidth / 2) - (this.tileSize / 2), (windowHeight / 2) - (this.tileSize / 2));
@@ -108,7 +117,10 @@ class Grid extends Player{
         this.drawForest();
         this.drawBoat();
         this.damageCheck(this.beast.update());
-        this.death();
+        if (this.death()) {
+            print("ded");
+            this.reset();
+        }
         pop();
     }
 }

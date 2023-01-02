@@ -1,4 +1,4 @@
-let scene = 1;
+let scene = 0;
 
 let grid;
 let screenMask;
