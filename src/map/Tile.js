@@ -4,6 +4,6 @@ class Tile {
     }
 
     draw() {
-        rect(0, 0, this.size, this.size);
+        rect(0, 0, this.size, this.size * 1.01);
     }
 }

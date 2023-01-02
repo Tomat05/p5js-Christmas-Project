@@ -19,7 +19,7 @@ function mainGame() {
     push();
     stroke(0);
     strokeWeight(3);
-    fill(0, 0, 0, 75);
+    fill(0, 0);
     rect((windowWidth / 2) - 25, (windowHeight / 2) - 25, 50, 50);
     pop();
     // screenMask.draw();

@@ -6,6 +6,7 @@ class Grid extends Player{
         this.tilesY = 9;
         this.tileSize = 50;
         this.healthFlash = 0;
+        this.beast = new Beast(this.tileSize, this.position);
     }
 
     createGrid() {
@@ -106,8 +107,8 @@ class Grid extends Player{
         this.drawWater();
         this.drawForest();
         this.drawBoat();
-        this.flashHealth();
-        this.damageCheck();
+        this.damageCheck(this.beast.update());
+        this.death();
         pop();
     }
 }

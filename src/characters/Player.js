@@ -10,7 +10,7 @@ class Player {
         this.boatHealth = 0;
     }
 
-    damageCheck() {
+    damageCheck(beast) {
         // DROWNING
         if (this.position.x % 7 === 0 || this.position.x % 7 === 6 || this.position.y % 9 === 0 || this.position.y % 9 === 8) {
             this.health = 0;
@@ -22,6 +22,12 @@ class Player {
         if (this.timeVal <= 0) {
             this.health = 0;
             this.deathMsg = "Player died of " + (this.thirsty ? "thirst" : "hunger");
+        }
+
+        // BEAST :O
+        if (beast) {
+            this.health = 0;
+            this.deathMsg = "Player felt the wrath of Clive";
         }
     }
 
@@ -52,7 +58,7 @@ class Player {
         }
     }
 
-    flashHealth() {
+    death() {
         if (this.health === 1) {
             return;
         }
