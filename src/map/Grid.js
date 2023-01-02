@@ -5,8 +5,6 @@ class Grid extends Player{
         this.tilesX = 7;
         this.tilesY = 9;
         this.tileSize = 50;
-        this.berryPos = round(random(0, 3));
-        this.thirsty = false;
         this.healthFlash = 0;
     }
 
@@ -25,13 +23,7 @@ class Grid extends Player{
                 push();
                 // OCEAN
                 if (x % 7 === 0 || x % 7 === 6 || y % 9 === 0 || y % 9 === 8) {
-                    fill(0, 0, 255);
-                // BOAT
-                } else if (x % 7 === 5 && y % 9 === 3) {
-                    fill(150);
-                // FOREST
-                } else if(x % 7 === 2 && y % 9 === 4) {
-                    fill(138, 67, 6);        
+                    fill(0, 0, 255);      
                 // SAND
                 } else if(x % 7 === 1 || x % 7 === 5 || y % 9 === 1 || y % 9 === 7) {
                     fill(255, 255, 0);
@@ -47,27 +39,10 @@ class Grid extends Player{
     }
 
     drawBerries() {
-        let pos = createVector(0, 0);
+        let pos = createVector(3, 6);
         fill(255, 0, 255);
         if (!this.hungry && this.timeVal < 4.8) {
-            this.berryPos = round(random(0, 3));
             return;
-        }
-        switch (this.berryPos) {
-            case 0:
-                pos.set(3,5);
-                break;
-            case 1:
-                pos.set(4,6);
-                break;
-            case 2:
-                pos.set(3,7);
-                break;
-            case 3:
-                pos.set(2,6);
-                break;
-            default:
-                break;
         }
         push();
         translate(pos.x * this.tileSize, pos.y * this.tileSize);
@@ -97,15 +72,42 @@ class Grid extends Player{
         }
     }
 
-    draw() {
+    drawForest() {
+        let pos = createVector(2, 4);
+        fill(138, 67, 6);
+        push();
+        translate(pos.x * this.tileSize, pos.y * this.tileSize);
+        this.tiles[pos.x][pos.y].draw()
+        pop();
+        if (pos.x === this.position.x && pos.y === this.position.y && !this.hasWood) {
+            this.collectWood();
+        }
+    }
+
+    drawBoat() {
+        let pos = createVector(5, 3);
+        fill(150);
+        push();
+        translate(pos.x * this.tileSize, pos.y * this.tileSize);
+        this.tiles[pos.x][pos.y].draw();
+        pop();
+
+        if (pos.x === this.position.x && pos.y === this.position.y && this.hasWood) {
+            this.repairBoat();
+        }
+    }
+
+    update() {
         push();
         translate((windowWidth / 2) - (this.tileSize / 2), (windowHeight / 2) - (this.tileSize / 2));
         translate(-this.position.x * this.tileSize, -this.position.y * this.tileSize);
         this.drawMap();
         this.drawBerries();
         this.drawWater();
+        this.drawForest();
+        this.drawBoat();
         this.flashHealth();
-        pop();
         this.damageCheck();
+        pop();
     }
 }

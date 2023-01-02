@@ -6,6 +6,8 @@ class Player {
         this.health = 1;
         this.deathMsg = "";
         this.timeVal = 5;
+        this.hasWood = false;
+        this.boatHealth = 0;
     }
 
     damageCheck() {
@@ -33,6 +35,21 @@ class Player {
         this.timeVal = 5;
         this.thirsty = false;
         this.hungry = true;
+    }
+
+    collectWood() {
+        this.hasWood = true;
+    }
+
+    repairBoat() {
+        if (this.hasWood) {
+            this.boatHealth++;
+            this.hasWood = false;
+        }
+        if (this.boatHealth >= 10) {
+            // TODO: END CUTSCENE
+            print("Win");
+        }
     }
 
     flashHealth() {
