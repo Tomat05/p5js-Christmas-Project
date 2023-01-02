@@ -1,6 +1,7 @@
 class Tile {
     constructor(tileSize) {
         this.size = tileSize;
+        this.colour;
     }
 
     draw() {
