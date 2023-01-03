@@ -1,13 +1,15 @@
 class Grid extends Player{
-    constructor() {
-        super();
+    constructor(drown, cliveDeath, starve, dehydrate) {
+        super(drown, cliveDeath, starve, dehydrate);
         this.tiles = []
         this.tilesX = 7;
         this.tilesY = 9;
         this.tileSize = 50;
         this.beast = new Beast(this.tileSize, this.position);
+        this.difficulty = 2;
     }
 
+    //#region SETUP
     createGrid() {
         for (let x = 0; x < this.tilesX; x++) {
             this.tiles[x] = [];
@@ -16,7 +18,9 @@ class Grid extends Player{
             }
         }
     }
+    //#endregion
 
+    //#region GAME LOOP
     drawMap() {
         for (let x = 0; x < this.tilesX; x++) {
             for (let y = 0; y < this.tilesY; y++) {
@@ -118,9 +122,18 @@ class Grid extends Player{
         this.drawBoat();
         this.damageCheck(this.beast.update());
         if (this.death()) {
-            print("ded");
+            print("lmao you dead");
             this.reset();
         }
         pop();
     }
+
+    drawNameTag() {
+        push()
+        translate((windowWidth / 2) - (this.tileSize / 2), (windowHeight / 2) - (this.tileSize / 2));
+        translate(-this.position.x * this.tileSize, -this.position.y * this.tileSize);
+        this.beast.displayName();
+        pop();
+    }
+    //#endregion
 }

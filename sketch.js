@@ -1,26 +1,41 @@
-let scene = 0;
+let scene = 1;
+
+let intro;
+let drown;
+let cliveDeath;
+let starve;
+let dehydrate;
 
 let grid;
 let screenMask;
-let intro;
+let menu;
+let menuImg;
+let started = false;
 
 function preload() {
-    intro = createVideo('src/resources/intro.mov');
+    intro = createVideo('src/resources/intro.mp4');
+
+    // It pains me that I can't do this in an array but p5.js moment I guess
+    drown = createVideo('src/resources/Drown.mp4');
+    cliveDeath = createVideo('src/resources/CliveDeath.mp4');
+    starve = createVideo('src/resources/Starve.mp4');
+    dehydrate = createVideo('src/resources/Dehydrate.mp4');
+
+    menuImg = loadImage('src/resources/menu.png');
 }
 
 // Initial setup
 function setup() {
 	createCanvas(windowWidth, windowHeight);
     screenMask = new ScreenMask();
-    grid = new Grid();
+    grid = new Grid(drown, cliveDeath, starve, dehydrate);
+    menu = new Menu(menuImg, grid);
     grid.createGrid();
     intro.hide();
-
-    try {
-        intro.play();
-    } catch (error) {
-        console.log(error);
-    }
+    drown.hide();
+    cliveDeath.hide();
+    starve.hide();
+    dehydrate.hide();
 }
 
 function onIntroFinish() {
@@ -29,6 +44,18 @@ function onIntroFinish() {
 
 function introCutscene() {
     background(0);
+    // A hacky way of avoiding dumb browser autoplay blocking
+    if (!started && !mouseIsPressed) {
+            push();
+            fill(255);
+            textSize(100);
+            text("click to start!", (width / 2) - 300, (height / 2) - 300, (width / 2) + 300, (height / 2) + 300);
+            pop();
+            return;
+        } else {
+            started = true;
+        }
+    intro.play();
     image(intro, 0, 0);
     intro.onended(onIntroFinish);
 }
@@ -38,29 +65,29 @@ function mainGame() {
     noStroke();
 
     grid.update();
-    push();
-    stroke(0);
-    strokeWeight(3);
-    fill(0, 0);
-    rect((windowWidth / 2) - 25, (windowHeight / 2) - 25, 50, 50);
-    pop();
-    // screenMask.draw();
+
+    if (menu.difficulty != 0) {
+        screenMask.draw();
+    } else {
+        push();
+        stroke(0);
+        strokeWeight(3);
+        fill(0, 0);
+        rect((windowWidth / 2) - 25, (windowHeight / 2) - 25, 50, 50);
+        pop();
+    }
+    if (menu.difficulty != 2) {
+        grid.drawNameTag();
+    }
 }
 
-// Update loop (FRAMERATE DEPENDANT)
 function draw() {
     switch (scene) {
         case 0:
             introCutscene();
             break;
         case 1:
-            // TODO: Menu screen
-            background(0);
-            push();
-            fill(255);
-            textSize(100);
-            text("Menu", 100, 100, 200, 200);
-            pop();
+            scene = menu.draw();
             break;
         case 2:
             mainGame();

@@ -1,5 +1,5 @@
 class Player {
-    constructor() {
+    constructor(drown, cliveDeath, starve, dehydrate) {
         this.thirsty = true;
         this.hungry = true;
         this.defaultPosition = createVector(4, 4);
@@ -10,6 +10,13 @@ class Player {
         this.hasWood = false;
         this.boatHealth = 0;
         this.healthFlash = 0;
+
+        this.drown = drown;
+        this.cliveDeath = cliveDeath;
+        this.starve = starve;
+        this.dehydrate = dehydrate;
+        this.deathType = -1;
+        this.shouldReset = false;
     }
 
     damageCheck(beast) {
@@ -17,6 +24,7 @@ class Player {
         if (this.position.x % 7 === 0 || this.position.x % 7 === 6 || this.position.y % 9 === 0 || this.position.y % 9 === 8) {
             this.health = 0;
             this.deathMsg = "Player jumped into the ocean and drowned :(";
+            this.deathType = 0;
         }
 
         // HUNGRY || THIRSTY
@@ -60,6 +68,21 @@ class Player {
         }
     }
 
+    playDeathCutscene() {
+        print(this.deathType);
+        switch (this.deathType) {
+            case 0:
+                print("Drowning");
+                this.drown.play();
+                image(this.drown, 0, 0);
+                this.drown.onended(this.shouldReset = true);
+                break;
+        
+            default:
+                break;
+        }
+    }
+
     death() {
         if (this.health === 1) {
             return;
@@ -71,7 +94,9 @@ class Player {
             this.healthFlash += 2;
         } if (this.healthFlash >= 300) {
             fill(0);
-        } if (this.healthFlash >= 400) {
+            this.playDeathCutscene();
+        }
+        if (this.shouldReset) {
             return true;
         }
         this.tiles[this.position.x][this.position.y].draw();

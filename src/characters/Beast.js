@@ -47,13 +47,20 @@ class Beast {
         push();
         fill(0);
         rect(this.position.x * this.size, this.position.y * this.size, this.size, this.size);
-        push();
         fill(0, 0, 0, 150);
         rect(this.position.x * this.size, (this.position.y + 1) * this.size, this.size, this.size);
         rect(this.position.x * this.size, (this.position.y - 1) * this.size, this.size, this.size);
         rect((this.position.x + 1) * this.size, this.position.y * this.size, this.size, this.size);
         rect((this.position.x - 1) * this.size, this.position.y * this.size, this.size, this.size);
         pop();
+    }
+
+    displayName() {
+        push();
+        fill(255, 0, 255);
+        textSize(20);
+        textAlign('center', 'center');
+        text("Clive", (this.position.x * this.size) + (this.size / 2), (this.position.y * this.size) + (this.size / 2));
         pop();
     }
 
