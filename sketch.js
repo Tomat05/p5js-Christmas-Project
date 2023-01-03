@@ -1,4 +1,4 @@
-let scene = 0;
+let scene = 1;
 
 let grid;
 let screenMask;
@@ -13,6 +13,7 @@ function setup() {
 
 function mainGame() {
     background(0);
+    frameRate(0);
     noStroke();
 
     grid.update();
