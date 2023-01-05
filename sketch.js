@@ -1,25 +1,17 @@
-let scene = 1;
+let scene = 0;
 
 let intro;
-let drown;
-let cliveDeath;
-let starve;
-let dehydrate;
+let menuImg;
 
 let grid;
 let screenMask;
 let menu;
-let menuImg;
+
 let started = false;
 
+// Here be files to load
 function preload() {
     intro = createVideo('src/resources/intro.mp4');
-
-    // It pains me that I can't do this in an array but p5.js moment I guess
-    drown = createVideo('src/resources/Drown.mp4');
-    cliveDeath = createVideo('src/resources/CliveDeath.mp4');
-    starve = createVideo('src/resources/Starve.mp4');
-    dehydrate = createVideo('src/resources/Dehydrate.mp4');
 
     menuImg = loadImage('src/resources/menu.png');
 }
@@ -28,14 +20,10 @@ function preload() {
 function setup() {
 	createCanvas(windowWidth, windowHeight);
     screenMask = new ScreenMask();
-    grid = new Grid(drown, cliveDeath, starve, dehydrate);
+    grid = new Grid();
     menu = new Menu(menuImg, grid);
     grid.createGrid();
     intro.hide();
-    drown.hide();
-    cliveDeath.hide();
-    starve.hide();
-    dehydrate.hide();
 }
 
 function onIntroFinish() {
@@ -60,6 +48,7 @@ function introCutscene() {
     intro.onended(onIntroFinish);
 }
 
+// da loop for the main game
 function mainGame() {
     background(0);
     noStroke();
@@ -81,6 +70,29 @@ function mainGame() {
     }
 }
 
+function win() {
+    push();
+    fill(0);
+    textSize(60);
+    textAlign('center', 'top');
+    text("You Win!", (width / 2), 20);
+    text("Imagine an amazing cutscene where you escape and get your neck\nfixed or something and everyone claps because you're so cool and\nyou finally achieved something with your pitiful little life.", width / 2, 130);
+    fill(255, 0, 0);
+    if (mouseX > (width / 2) - 250 && mouseX < (width / 2) + 250 &&
+    mouseY > (height / 2) && mouseY < (height / 2) + 200) {
+        fill(255, 0, 0, 150)
+        if (mouseIsPressed) {
+            scene = 1;
+        }
+    }
+    rect((width / 2) - 250, (height / 2), 500, 200);
+    textAlign('center', 'center');
+    fill(0);
+    text("menu", width / 2, (height / 2) + 95);
+    pop();
+}
+
+// Main draw loop
 function draw() {
     switch (scene) {
         case 0:
@@ -90,10 +102,12 @@ function draw() {
             scene = menu.draw();
             break;
         case 2:
+            menu.sceneToLoad = 1;
             mainGame();
             break;
         case 3:
-            // TODO: End cutscene
+            background(255);
+            win();
             break;
         default:
             scene = 1;

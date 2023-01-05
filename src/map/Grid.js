@@ -1,6 +1,6 @@
 class Grid extends Player{
-    constructor(drown, cliveDeath, starve, dehydrate) {
-        super(drown, cliveDeath, starve, dehydrate);
+    constructor() {
+        super();
         this.tiles = []
         this.tilesX = 7;
         this.tilesY = 9;
@@ -109,6 +109,7 @@ class Grid extends Player{
         this.health = 1;
         this.healthFlash = 0;
         this.timeVal = 5;
+        scene = 1;
     }
 
     update() {
@@ -122,7 +123,6 @@ class Grid extends Player{
         this.drawBoat();
         this.damageCheck(this.beast.update());
         if (this.death()) {
-            print("lmao you dead");
             this.reset();
         }
         pop();
