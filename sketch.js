@@ -70,6 +70,7 @@ function mainGame() {
     }
 }
 
+// I forgor 💀
 function win() {
     push();
     fill(0);
